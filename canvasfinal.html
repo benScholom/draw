@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas</title>
+	
+
+</head>
+<body>
+<script>
+
+	var header = document.createElement("h1");
+	header.innerHTML = "Draw something interesting:";
+	document.body.append(header);
+	
+	var draw = document.createElement("canvas");
+	draw.setAttribute("width", 620);
+	draw.setAttribute("height", 620);
+	draw.style.border = "5px solid black";
+	draw.style.display = "block";
+	document.body.append(draw);
+	// create canvas
+	
+	var clearbtn = document.createElement("button");
+	clearbtn.innerHTML = "Clear";
+	clearbtn.style.width = "100px";
+	clearbtn.style.height = "50px";
+	clearbtn.style.display = "inline-block";
+	clearbtn.style.verticalAlign = "top";
+	document.body.append(clearbtn);
+	//create clear button
+	
+	var colorWheel = document.createElement("input");
+	colorWheel.setAttribute("id", "color");
+	colorWheel.setAttribute("type", "color");
+	colorWheel.style.display = "inline-block";
+	colorWheel.style.marginLeft = "20px";
+	colorWheel.style.height = "47px";
+	colorWheel.style.width = "100px";
+	document.body.append(colorWheel);
+	//color option
+
+	var erasebtn = document.createElement("button");
+	erasebtn.setAttribute("id", "erase");
+	erasebtn.innerHTML = "Erase";
+	erasebtn.style.width = "100px";
+	erasebtn.style.height = "50px";
+	erasebtn.style.display = "inline-block";
+	erasebtn.style.verticalAlign = "top";
+	erasebtn.style.marginLeft = "20px";
+	document.body.append(erasebtn);
+	//create erase button
+	
+	var penciltext = document.createElement("p");
+	penciltext.innerHTML = "Alter pencil size:";
+	penciltext.style.display = "inline-block";
+	penciltext.style.verticalAlign = "top";
+	penciltext.style.marginLeft = "20px";
+	document.body.append(penciltext);
+	
+	var plusbtn = document.createElement("button");
+	plusbtn.style.display = "inline-block";
+	plusbtn.innerHTML = "+";
+	plusbtn.style.verticalAlign = "top";
+	plusbtn.style.height = "50px";
+	plusbtn.style.width = "50px";
+	plusbtn.style.marginLeft = "20px";
+	document.body.append(plusbtn);
+	//incrase pencil size
+	
+	var minusbtn = document.createElement("button");
+	minusbtn.style.display = "inline-block";
+	minusbtn.innerHTML = "-";
+	minusbtn.style.verticalAlign = "top";
+	minusbtn.style.height = "50px";
+	minusbtn.style.width = "50px";
+	minusbtn.style.marginLeft = "5px";
+	document.body.append(minusbtn);
+	//decrease pencil size
+	
+	var pen = document.createElement("p");
+	pen.setAttribute("id", "pencil");
+	pen.style.display = "inline-block";
+	pen.style.marginLeft = "20px";
+	pen.style.verticalAlign = "top";
+	document.body.append(pen);
+	//list size of line
+	
+	var ctx = draw.getContext("2d");
+	var mouseDown = false;
+	var mx = 0;
+	var my = 0;
+	ctx.fillStyle = "#ffffff";
+	ctx.fillRect(0, 0, draw.width, draw.height);
+	ctx.lineWidth = 1;
+	var pencil = pen.innerHTML = ctx.lineWidth;
+	//setting up initial values
+	
+	draw.addEventListener("mousedown", function(event) {
+		mouseDown = true;
+		mx = event.offsetX;
+		my = event.offsetY;
+		ctx.beginPath();
+		ctx.moveTo(mx,my);
+		});
+		//mouse click
+		
+	window.addEventListener("mouseup", function(event) {
+		mouseDown = false;
+		});
+		// mouse drag
+	
+	draw.addEventListener("mousemove", function(event) {
+	if (mouseDown == true) {
+			mx = event.offsetX;
+			my = event.offsetY;
+			ctx.lineTo(mx, my);
+			ctx.stroke();
+			}
+		});
+		//mouse up
+	
+		clearbtn.addEventListener("click", function(event) {
+		draw.width = draw.width;
+		ctx.fillStyle = "#ffffff";
+		ctx.fillRect(0, 0, draw.width, draw.height);
+		ctx.strokeStyle = document.getElementById("color").value;
+		ctx.lineWidth = pencil;
+		});
+		
+		colorWheel.addEventListener("change", function paint(){
+		ctx.strokeStyle = document.getElementById("color").value;
+		});
+		
+		colorWheel.addEventListener("click", function paint(){
+		ctx.strokeStyle = document.getElementById("color").value;
+		});
+		
+		plusbtn.addEventListener("click", function larger() {
+			ctx.lineWidth++;
+			pencil = pen.innerHTML = ctx.lineWidth;
+	});
+	
+		minusbtn.addEventListener("click", function smaller() {
+			ctx.lineWidth--;
+			pencil = pen.innerHTML = ctx.lineWidth;
+	});
+	
+		erasebtn.addEventListener("click", function erase() {
+			ctx.strokeStyle = "#ffffff";
+			});
+</script>
+</body>
+</html>
